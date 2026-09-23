@@ -1,0 +1,19 @@
+name: SMC Real Data - No API Key
+on:
+  schedule:
+    - cron: '*/5 3-9 * * 1-5'
+  workflow_dispatch:
+jobs:
+  bot:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install yfinance pandas pytz requests
+      - env:
+          GMAIL_USER: ${{ secrets.GMAIL_USER }}
+          GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
+          GMAIL_TO: ${{ secrets.GMAIL_TO }}
+        run: python cloud_cron_NO_API_KEY.py
